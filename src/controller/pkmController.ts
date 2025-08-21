@@ -64,6 +64,8 @@ export default class pkmController {
             else if ((err as Error).message.includes("Api are not avaiable!")) { return res.status(503).json("Api are not avaiable!") }
             else if ((err as Error).message.includes("Nenhuma cidade encontrada!")) { return res.status(503).json("Nenhuma cidade encontrada!") }
 
+            return res.status(500).json({ error: "Erro interno do servidor" })
+
         }
     }
 

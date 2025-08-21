@@ -9,15 +9,25 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "dev":"node --loader ts-node/esm ./src/index.ts"
+    "dev": "node --loader ts-node/esm ./src/index.ts"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.14.3",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.3",
+    "@types/mysql": "^2.15.27",
+    "@types/sequelize": "^4.28.20",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }
