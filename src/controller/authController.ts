@@ -1,13 +1,20 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../models/User.js"
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { Jwt } from "jsonwebtoken";
+
 
 type user = {
     name: string;
     email: string;
     password: string;
+    jwt: string | null
 }
+
 export default class authController {
+
+
 
     static async createUser(req: Request, res: Response) {
         const userInfos: user = req.body
@@ -35,13 +42,16 @@ export default class authController {
 
         try {
             userInfos.password = hashedPassword
-            const newUser = await User.create(userInfos)
+            await User.create(userInfos)
             return res.status(200).json("Usuário criado com sucesso!");
         } catch (err) {
             return res.status(500).json("Erro ao criar usuário!");
         }
     }
     static async loginUser(req: Request, res: Response, next: NextFunction) {
+
+        console.log(process.env.JWT_KEY)
+
         const userInfos: user = req.body
 
         try {
@@ -52,7 +62,19 @@ export default class authController {
             }
 
             bcrypt.compare(userInfos.password, currentUser.password).then(function (result) {
-                return res.status(200).json(currentUser)
+                const authedUser:user = {
+                    name: currentUser.name,
+                    email: currentUser.email,
+                    password: currentUser.password,
+                    jwt:null
+                }
+
+                const privateKey = process.env.JWT_KEY
+                const token: string = jwt.sign(authedUser, privateKey!, { algorithm: 'HS256' })
+                
+                authedUser.jwt = token;
+
+                return res.status(200).json(authedUser)
             });
 
         } catch {
