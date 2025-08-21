@@ -5,16 +5,14 @@ const { Sequelize } = SequelizePkg;
 
 import {conn} from "../conn/conn.js"
 import { Goal } from "./Goal.js";
+import { PokemonUser } from "./pokemon-user.js";
 
-export const User = conn.define(
-    'User',
+export const Pokemon = conn.define(
+    'Pokemon',
     {
         name: Sequelize.STRING,
-        email:  Sequelize.STRING,
-        password:  Sequelize.STRING,
-        
-
+        sprite:  Sequelize.STRING,
     },
 
 );
-User.hasOne(Goal,{ foreignKey: 'userId' })
+Pokemon.hasMany(PokemonUser,{ foreignKey: 'userId'})

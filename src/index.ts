@@ -9,6 +9,10 @@ import { router } from "./routes/routes.js"
 import cors from "cors";
 import { conn } from "./conn/conn.js"
 import { User } from "./models/User.js";
+import { Pokemon } from "./models/Pokemon.js";
+import { Goal } from "./models/Goal.js";
+import { PokemonUser } from "./models/pokemon-user.js";
+import { GoalUser } from "./models/Goal-user.js";
 
 
 
@@ -33,6 +37,11 @@ const testConn = async () => {
   try {
     await conn.authenticate();
     await User.sync()
+    await Pokemon.sync()
+    await Goal.sync()
+    await PokemonUser.sync()
+    await GoalUser.sync()
+    
     console.log('Connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
