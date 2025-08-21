@@ -10,9 +10,7 @@ import cors from "cors";
 import { conn } from "./conn/conn.js"
 import { User } from "./models/User.js";
 import { Pokemon } from "./models/Pokemon.js";
-import { Goal } from "./models/Goal.js";
 import { PokemonUser } from "./models/pokemon-user.js";
-import { Goalpkm } from "./models/Goal-Pkm.js";
 
 
 
@@ -38,9 +36,7 @@ const testConn = async () => {
     await conn.authenticate();
     await User.sync()
     await Pokemon.sync()
-    await Goal.sync()
     await PokemonUser.sync()
-    await Goalpkm.sync()
 
     console.log('Connection has been established successfully.');
   } catch (error) {

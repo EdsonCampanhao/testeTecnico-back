@@ -13,7 +13,9 @@ router.get('/', (req, res) => {
 router.get('/about', (req,res) => {
   res.send('About birds')
 })
+router.get("/catchedPokemon",pkmController.getPokemonsCatched)
+router.post("/catchPokemon",pkmController.catchPokemon)
 router.get("/getPKM",pkmController.getPokemon)
 router.post("/createUser",authController.createUser)
-router.post("/login",authController.loginUser)
+router.get("/login",authController.loginUser)
 

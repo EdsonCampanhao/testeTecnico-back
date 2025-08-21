@@ -3,8 +3,7 @@ import { User } from "../models/User.js"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Jwt } from "jsonwebtoken";
-import goalController from "./goalController.js";
-import { instanceOfModel } from "./goalController.js";
+import { instanceOfModel } from "./pkmController.js";
 
 
 type user = {
@@ -46,7 +45,6 @@ export default class authController {
         try {
             userInfos.password = hashedPassword
             const currentUser = await User.create(userInfos) as unknown as instanceOfModel
-            goalController.newGoal(currentUser.id)
             return res.status(200).json("Usuário criado com sucesso!");
         } catch (err) {
             return res.status(500).json("Erro ao criar usuário!");
@@ -78,7 +76,6 @@ export default class authController {
                 const token: string = jwt.sign(authedUser, privateKey!, { algorithm: 'HS256' })
 
                 authedUser.jwt = token;
-                goalController.newGoal(currentUser.id)
 
                 return res.status(200).json(authedUser)
             });

@@ -1,21 +1,35 @@
 import { Request, Response } from "express"
 import weatherApiController from "./weatherAPIController.js";
+import { Pokemon } from "../models/Pokemon.js";
+// import { instanceOfModel } from "./goalController.js";
+import { PokemonUser } from "../models/pokemon-user.js";
 
+export type instanceOfModel = {
+    id: number;
+}
+type instanceOfPkmUser = {
+    pokemonId:number;
+    userId:number;
+}
 
-export type pokemonFinded = {
+type pokemonFinded = {
     pokemon: pokemon
 }
-export type pokemon = {
+
+type pokemon = {
     name: string;
     url: string;
 }
-export type pokemonSprites = {
+
+type pokemonSprites = {
     sprites: frontSprite
 }
-export type frontSprite = {
+
+type frontSprite = {
     front_shiny: string
 }
-export type pokemonComplete = {
+
+type pokemonComplete = {
     local: string
     name: string;
     type: String;
@@ -130,6 +144,57 @@ export default class pkmController {
         } catch (error) {
             throw new Error("Api are not avaiable!")
         }
+    }
+
+    static async catchPokemon(req: Request, res: Response) {
+        const currentPokemon: pokemon = req.body
+        const currentUserId = req.body.userId
+
+        try {
+
+            const catchedPokemon = await Pokemon.findOne({ raw: true, where: { name: currentPokemon.name } }) as unknown as instanceOfModel
+            if (!catchedPokemon) {
+                const catchPokemon = await Pokemon.create({ name: currentPokemon.name, sprite: currentPokemon.url }) as unknown as instanceOfModel
+
+                await PokemonUser.create({ userId: currentUserId, pokemonId: catchPokemon.id })
+            } else {
+                const currentUserPokemon = await PokemonUser.findOne({ where: { pokemonId: catchedPokemon.id, userId: currentUserId } }) as unknown as instanceOfModel
+
+                if (!currentUserPokemon) {
+                    await PokemonUser.create({ userId: currentUserId, pokemonId: catchedPokemon.id })
+                }
+            }
+            res.status(200).json("pokemon capturado com sucesso")
+        } catch (err) {
+            res.status(500).json("erro ao capturar pokemon!")
+        }
+
+    }
+    static async getPokemonsCatched(req: Request, res: Response) {
+
+        const currentUser = req.body.userId
+
+        try {
+            const getPokemonsCatched:instanceOfPkmUser[] = await PokemonUser.findAll({ raw: true, where: { userId: currentUser } }) as unknown as instanceOfPkmUser[]
+
+            if(!getPokemonsCatched){
+                return
+            }
+
+            const pokemonsCatched=[]
+
+            for(let i = 0; i < getPokemonsCatched.length;i++){
+                const currentPokemon = await Pokemon.findOne({raw:true,where:{id:getPokemonsCatched[i].pokemonId}})
+                pokemonsCatched.push(currentPokemon)
+            }
+
+            return res.status(200).json(pokemonsCatched)
+
+        }catch(err){
+            res.status(500).json("erro ao acessar o banco de dados")
+           
+        }
+
     }
 
 }
