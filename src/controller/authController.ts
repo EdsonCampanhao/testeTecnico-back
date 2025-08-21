@@ -3,9 +3,12 @@ import { User } from "../models/User.js"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Jwt } from "jsonwebtoken";
+import goalController from "./goalController.js";
+import { instanceOfModel } from "./goalController.js";
 
 
 type user = {
+    id: number;
     name: string;
     email: string;
     password: string;
@@ -42,7 +45,8 @@ export default class authController {
 
         try {
             userInfos.password = hashedPassword
-            await User.create(userInfos)
+            const currentUser = await User.create(userInfos) as unknown as instanceOfModel
+            goalController.newGoal(currentUser.id)
             return res.status(200).json("Usuário criado com sucesso!");
         } catch (err) {
             return res.status(500).json("Erro ao criar usuário!");
@@ -62,17 +66,19 @@ export default class authController {
             }
 
             bcrypt.compare(userInfos.password, currentUser.password).then(function (result) {
-                const authedUser:user = {
+                const authedUser: user = {
+                    id:currentUser.id,
                     name: currentUser.name,
                     email: currentUser.email,
                     password: currentUser.password,
-                    jwt:null
+                    jwt: null
                 }
 
                 const privateKey = process.env.JWT_KEY
                 const token: string = jwt.sign(authedUser, privateKey!, { algorithm: 'HS256' })
-                
+
                 authedUser.jwt = token;
+                goalController.newGoal(currentUser.id)
 
                 return res.status(200).json(authedUser)
             });

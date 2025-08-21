@@ -12,7 +12,7 @@ import { User } from "./models/User.js";
 import { Pokemon } from "./models/Pokemon.js";
 import { Goal } from "./models/Goal.js";
 import { PokemonUser } from "./models/pokemon-user.js";
-import { GoalUser } from "./models/Goal-user.js";
+import { Goalpkm } from "./models/Goal-Pkm.js";
 
 
 
@@ -40,8 +40,8 @@ const testConn = async () => {
     await Pokemon.sync()
     await Goal.sync()
     await PokemonUser.sync()
-    await GoalUser.sync()
-    
+    await Goalpkm.sync()
+
     console.log('Connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);

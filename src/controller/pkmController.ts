@@ -2,20 +2,20 @@ import { Request, Response } from "express"
 import weatherApiController from "./weatherAPIController.js";
 
 
-type pokemonFinded = {
+export type pokemonFinded = {
     pokemon: pokemon
 }
-type pokemon = {
+export type pokemon = {
     name: string;
     url: string;
 }
-type pokemonSprites = {
+export type pokemonSprites = {
     sprites: frontSprite
 }
-type frontSprite = {
+export type frontSprite = {
     front_shiny: string
 }
-type pokemonComplete = {
+export type pokemonComplete = {
     local: string
     name: string;
     type: String;
@@ -36,7 +36,7 @@ export default class pkmController {
 
             const type = pkmController.getType(weatherInfos.temp)
 
-            const listOfAvaiablePokemons = await pkmController.getPokemonOfType(type, weatherInfos.rain)
+            const listOfAvaiablePokemons = await pkmController.getPokemonsOfType(type, weatherInfos.rain)
 
             const findedPokemon: pokemon = await pkmController.getRandomPokemon(listOfAvaiablePokemons.pokemon)
 
@@ -85,11 +85,18 @@ export default class pkmController {
         return "normal"
 
     }
+    static getRandonType() {
+        const randomTemp = Math.round(Math.random() * 40)
+        if (randomTemp < 35) {
+            return pkmController.getType(randomTemp)
+        }
+        return "electric"
+    }
 
-    static async getPokemonOfType(type: string, weather: boolean) {
+    static async getPokemonsOfType(type: string, weather: boolean) {
         if (weather) {
             try {
-                const response = await fetch(`https://pokeapi.co/api/v2/type/eletric/`)
+                const response = await fetch(`https://pokeapi.co/api/v2/type/electric/`)
                 const data = await response.json()
                 return data
 

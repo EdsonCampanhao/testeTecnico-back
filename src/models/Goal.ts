@@ -6,7 +6,7 @@ const { Sequelize } = SequelizePkg;
 
 import {conn} from "../conn/conn.js"
 import { User } from "./User.js";
-import { GoalUser } from "./Goal-user.js";
+import { Goalpkm } from "./Goal-Pkm.js";
 
 export const Goal = conn.define(
     'Goal',
@@ -15,4 +15,4 @@ export const Goal = conn.define(
     },
 
 );
-Goal.hasMany(GoalUser,{ foreignKey: 'userId'})
+Goal.hasMany(Goalpkm,{ foreignKey: 'goalId'})
