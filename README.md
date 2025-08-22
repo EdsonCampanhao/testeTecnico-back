@@ -49,7 +49,7 @@ Cria um novo usuário no sistema.
 }
 ```
 
-### GET /login
+### Post /login
 Autentica um usuário no sistema.
 
 **Parâmetros:**
@@ -66,7 +66,7 @@ Autentica um usuário no sistema.
 
 ## 🎮 Endpoints de Pokémon
 
-### GET /catchedPokemon
+### Post /catchedPokemon
 Retorna todos os Pokémon capturados por um usuário.
 
 **Parâmetros:**
@@ -129,3 +129,13 @@ GET /getPKM?city=São Paulo
    ```bash
    npm run dev
    ```
+
+4.baixe o front-end no link:https://github.com/EdsonCampanhao/testeTecnico-front
+
+5. crie um .env com o a variável de ambiente no mesmo nível do package.json
+    ```NEXT_PUBLIC_API_URL=http://localhost:3000
+   ```
+
+6. rode também com npm run dev
+   
+
