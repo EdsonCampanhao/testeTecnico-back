@@ -1,6 +1,7 @@
 import { Router } from "express"
 import pkmController from "../controller/pkmController.js"
 import authController from "../controller/authController.js"
+import { authMiddleware } from "../authMidleware/auth.js"
 
 
 export const router : Router = Router()
@@ -13,9 +14,9 @@ router.get('/', (req, res) => {
 router.get('/about', (req,res) => {
   res.send('About birds')
 })
-router.get("/catchedPokemon",pkmController.getPokemonsCatched)
-router.post("/catchPokemon",pkmController.catchPokemon)
-router.get("/getPKM",pkmController.getPokemon)
+router.post("/catchedPokemon",authMiddleware,pkmController.getPokemonsCatched)
+router.post("/catchPokemon",authMiddleware,pkmController.catchPokemon)
+router.get("/getPKM",authMiddleware,pkmController.getPokemon)
 router.post("/createUser",authController.createUser)
 router.post("/login",authController.loginUser)
 
