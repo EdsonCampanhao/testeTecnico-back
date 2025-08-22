@@ -133,9 +133,10 @@ GET /getPKM?city=São Paulo
 4.baixe o front-end no link:https://github.com/EdsonCampanhao/testeTecnico-front
 
 5. crie um .env com o a variável de ambiente no mesmo nível do package.json
-    ```NEXT_PUBLIC_API_URL=http://localhost:3000
-   ```
+    NEXT_PUBLIC_API_URL=http://localhost:3000
+   
 
 6. rode também com npm run dev
    
+
 
