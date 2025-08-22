@@ -17,5 +17,5 @@ router.get("/catchedPokemon",pkmController.getPokemonsCatched)
 router.post("/catchPokemon",pkmController.catchPokemon)
 router.get("/getPKM",pkmController.getPokemon)
 router.post("/createUser",authController.createUser)
-router.get("/login",authController.loginUser)
+router.post("/login",authController.loginUser)
 

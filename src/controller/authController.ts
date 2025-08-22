@@ -64,8 +64,12 @@ export default class authController {
             }
 
             bcrypt.compare(userInfos.password, currentUser.password).then(function (result) {
+
+                if (!result) {
+                    return res.status(401).json({ message: "Senha incorreta" });
+                }
                 const authedUser: user = {
-                    id:currentUser.id,
+                    id: currentUser.id,
                     name: currentUser.name,
                     email: currentUser.email,
                     password: currentUser.password,
